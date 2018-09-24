@@ -1,0 +1,23 @@
+custom_admin.description:
+  path: '/admin/custom'
+  defaults:
+    _controller:  '\Drupal\custom_admin\Controller\Page'
+    _title: 'Admin Custom config'
+  requirements:
+    _permission: 'administer site configuration'
+
+custom_admin.social_link_form:
+  path: '/admin/custom/social'
+  defaults:
+    _controller:  '\Drupal\custom_admin\Form\SocialForm'
+    _title: 'Social'
+  requirements:
+    _permission: 'administer site configuration'
+
+custom_admin.tip_content_form:
+  path: '/admin/custom/tip-content'
+  defaults:
+    _controller:  '\Drupal\custom_admin\Form\TipContentForm'
+    _title: 'Tip Content'
+  requirements:
+    _permission: 'administer site configuration'

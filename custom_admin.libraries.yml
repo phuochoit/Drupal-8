@@ -1,0 +1,5 @@
+custom_admin.icons:
+  version: VERSION
+  css:
+    theme:
+      css/custom_admin.icons.css: {}

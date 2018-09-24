@@ -1,0 +1,58 @@
+<?php
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_toolbar().
+ */
+function custom_admin_toolbar() {
+    $links = [];
+    // Add a link to enable Custom admin modlue.
+    $links['social_link_form'] = array(
+        'title' => Html::escape('Social'),
+        'url' => Url::fromRoute('custom_admin.social_link_form'),
+        'attributes' => [
+          'title' => Html::escape('Admin Custom social link'),
+        ],
+    );
+    $links['tip_content_form'] = array(
+        'title' => Html::escape('Tip Content'),
+        'url' => Url::fromRoute('custom_admin.tip_content_form'),
+        'attributes' => [
+          'title' => Html::escape('Admin Custom Tip Content'),
+        ],
+    );
+    
+    // Create the Custom admin toolbar render array.
+    $items['custom_admin'] = [
+        '#type' => 'toolbar_item',
+        'tab' => [
+            '#type' => 'link',
+            '#title' => t('Custom Configuration'),
+            '#url' => Url::fromRoute('<front>'),
+            '#attributes' => [
+                'title' => t('Custom Configuration'),
+                'class' => ['toolbar-icon', 'toolbar-icon-custom-admin'],
+            ],
+        ],
+        'tray' => [
+            '#heading' => t('Custom Configuration'),
+            'shortcuts' => [
+                '#theme' => 'links__toolbar_example',
+                '#links' => $links,
+                '#attributes' => [
+                'class' => ['toolbar-menu'],
+                ],
+            ],
+        ],
+        '#weight' => 99,
+        '#attached' => [
+            'library' => [
+                'custom_admin/custom_admin.icons',
+            ],
+        ],
+    ];
+    
+    return $items;
+}
+
