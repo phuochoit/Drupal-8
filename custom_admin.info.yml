@@ -3,11 +3,11 @@ type: module
 description: Admin Custom Configuration.
 package: LVPGT
 # core: 8.x
-# configure: custom_admin.description
+configure: custom_admin.description
 dependencies:
-  - drupal:toolbar
+    - drupal:toolbar
 # Information added by Drupal.org packaging script on 2018-09-10
-version: '8.x-1.x-dev'
+version: '8.x-1.2'
 core: '8.x'
 project: 'LVPGT'
-datestamp: 1536620584
+datestamp: 1507650850

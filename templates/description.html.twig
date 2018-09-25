@@ -6,12 +6,12 @@ Description text for the Form API Example.
 
 {{ attach_library('core/drupal.dialog.ajax') }}
 {% set custom_form_social = path('custom_admin.social_link_form') %}
-{# {% set custom_form_tip_content = path('custom_admin.tip_content_form') %} #}
+{% set custom_form_tip_content = path('custom_admin.tip_content_form') %}
 
 
 {% trans %}
 <p>Admin custom config website</p>
 <p><a href={{ custom_form_social }}>Social</a></p>
-{# <p><a href={{ custom_form_tip_content }}>Tip Content</a></p> #}
+<p><a href={{ custom_form_tip_content }}>Tip Content</a></p>
 
 {% endtrans %}

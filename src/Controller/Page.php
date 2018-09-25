@@ -2,20 +2,20 @@
 
 namespace Drupal\custom_admin\Controller;
 
-// use Drupal\examples\Utility\DescriptionTemplateTrait;
+use Drupal\Core\Controller\ControllerBase;
 
 /**
  * Simple page controller for drupal.
  */
-class Page {
+class Page extends ControllerBase{
 
-  // use DescriptionTemplateTrait;
+    public function description() {
+        $output = array();
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getModuleName() {
-    return 'custom_admin';
-  }
+        $output['hello_world'] = array(
+            '#markup' => $this->t('Hello World!'),
+        );
+        return $output;
+    }
 
 }

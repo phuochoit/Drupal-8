@@ -1,18 +1,23 @@
 # Define default links for this module.
 
 custom_admin.description:
-  title: Admin Custom
-  description: Admin Custom Website.
-  expanded: TRUE
-
-custom_admin.social_link_form:
-  title: Social form
-  description: Social From.
-  route_name: custom_admin.social_link_form
-  weight: 0
+    title: Admin Custom
+    description: Admin Custom Website.
+    route_name: custom_admin.description
+    expanded: TRUE
 
 custom_admin.tip_content_form:
-  title: Tip Content
-  description: Tip Content.
-  route_name: custom_admin.tip_content_form
-  weight: 1
+    title: Tip Content
+    description: Tip Content.
+    route_name: custom_admin.tip_content_form
+    parent: custom_admin.description
+    weight: 1
+  
+custom_admin.social_link_form:
+    title: Social form
+    description: Social From.
+    route_name: custom_admin.social_link_form
+    parent: custom_admin.description
+    weight: 0
+
+

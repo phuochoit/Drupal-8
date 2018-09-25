@@ -15,6 +15,9 @@ class TipContentForm extends ConfigFormBase {
     /**
 	 * get config data use by class
 	 */
+     /**
+   * {@inheritdoc}
+   */
 	protected function getEditableConfigNames() {
 		return ('custom_admin.tip_content');
     }
@@ -29,28 +32,77 @@ class TipContentForm extends ConfigFormBase {
      * buildForm
      */
     public function buildForm(array $form, FormStateInterface $form_state) {
+        $config = \Drupal::config('custom_admin.tip_content');
+        $tip = $config->get('tip');
         $num_tips = $form_state->get('num_tips');
+        
         if ($num_tips === NULL) {
-            $name_field = $form_state->set('num_tips', 1);
-            $num_tips = 1;
+            if (!empty($tip)) {
+                $name_field = $form_state->set('num_tips', count($tip));
+                $num_tips = count($tip);
+            }else{
+                $name_field = $form_state->set('num_tips', 1);
+                $num_tips = 1;
+            }
         }
+
         $form['#tree'] = TRUE;
+        $form['tip_title_content'] = [
+            '#type' => 'textfield', 
+            '#title' => $this->t('Title'), 
+            '#size' => 60, 
+            '#maxlength' => 255, 
+            '#required' => TRUE,
+            '#default_value' => $config->get('tip_title_content') ? $config->get('tip_title_content') : null
+        ];
+
+        $form['tip_content_description'] = [
+            '#title' => $this->t('Description'),
+            '#type' => 'textarea',
+            '#rows' => 5,
+            '#cols' => 60,
+            '#required' => FALSE,
+            '#resizable' => TRUE,
+            '#default_value' => $config->get('tip_content_description') ? $config->get('tip_content_description') : null
+        ];
         $form['tips_fieldset'] = [
             '#type' => 'fieldset',
-            '#title' => $this->t('People coming to picnic'),
+            '#title' => $this->t('Tip Content'),
             '#prefix' => '<div id="names-fieldset-wrapper">',
             '#suffix' => '</div>',
         ];
         for ($i = 0; $i < $num_tips; $i++) {
-            $form['tips_fieldset']['name'][$i] = [
+            $form['tips_fieldset']['tip_fieldset'][$i] = [
+                '#type' => 'fieldset', 
+                '#title' => $this->t('Tip'), 
+                '#weight' => $i, 
+                '#collapsible' => TRUE, 
+                '#collapsed' => FALSE,
+            ];
+        
+            $form['tips_fieldset']['tip_fieldset'][$i]['title'] = [
                 '#type' => 'textfield',
-                '#title' => $this->t('Name'),
+                '#title' => $this->t('Title'), 
+                '#size' => 60, 
+                '#maxlength' => 255, 
+                '#default_value' => $tip[$i]['title'] ? $tip[$i]['title'] : null
+            ];
+            $form['tips_fieldset']['tip_fieldset'][$i]['tip_content'] = [
+                '#title' => $this->t('Content'),
+                '#type' => 'text_format',
+                '#rows' => 5,
+                '#cols' => 30,
+                '#required' => FALSE,
+                '#resizable' => TRUE,
+                '#default_value' => $tip[$i]['tip_content']['value'] ? $tip[$i]['tip_content']['value'] : null,
+                '#format' => $tip[$i]['tip_content']['format'] ? $tip[$i]['tip_content']['format'] : 'full_html',
             ];
         }
         $form['tips_fieldset']['actions'] = [
             '#type' => 'actions',
         ];
-        $form['tips_fieldset']['actions']['add_name'] = [
+
+        $form['tips_fieldset']['actions']['add_tip'] = [
             '#type' => 'submit',
             '#value' => $this->t('Add one more'),
             '#submit' => ['::addOne'],
@@ -61,7 +113,7 @@ class TipContentForm extends ConfigFormBase {
         ]; 
         // If there is more than one name, add the remove button.
         if ($num_tips > 1) {
-            $form['tips_fieldset']['actions']['remove_name'] = [
+            $form['tips_fieldset']['actions']['remove_tip'] = [
                 '#type' => 'submit',
                 '#value' => $this->t('Remove one'),
                 '#submit' => ['::removeCallback'],
@@ -115,13 +167,20 @@ class TipContentForm extends ConfigFormBase {
 	 */
 	public function validateForm(array &$form, FormStateInterface $form_state) {
         // watting
-        // parent::validateForm($form, $form_state);
+        parent::validateForm($form, $form_state);
     }
 
     /**
 	 * from submit
 	 */		
 	public function submitForm(array &$form, FormStateInterface $form_state) {
+        $tips_fieldset = $form_state->getValue('tips_fieldset');
         // watting
+        $this->configFactory->getEditable('custom_admin.tip_content')
+        ->set('tip_title_content', $form_state->getValue('tip_title_content'))
+        ->set('tip_content_description', $form_state->getValue('tip_content_description'))
+        ->set('tip', $tips_fieldset['tip_fieldset'])
+        ->save();
+    	parent::submitForm($form, $form_state);
     }
 }

@@ -23,14 +23,15 @@ class SocialForm extends ConfigFormBase {
 	 * custom form field
 	 */
 	public function buildForm(array $form, FormStateInterface $form_state) {
-		$config = $this->config('custom_admin.social');
+		// $config = $this->config('custom_admin.social');
+		
 		$form['social_facebook_link'] = array(
 			'#type' => 'textfield', 
 			'#title' => t('Facebook'), 
 			'#size' => 60, 
 			'#maxlength' => 255, 
 			'#required' => TRUE,
-			'#default_value' => $config->get('facebook_link')
+			'#default_value' => \Drupal::config('custom_admin.social')->get('facebook_link') 
 			
 		);
 		$form['social_google_link'] = array(
@@ -39,7 +40,7 @@ class SocialForm extends ConfigFormBase {
 			'#size' => 60, 
 			'#maxlength' => 255, 
 			'#required' => TRUE,
-			'#default_value' => $config->get('google_link')
+			'#default_value' => \Drupal::config('custom_admin.social')->get('google_link')
 			
 		);
 
