@@ -2,12 +2,11 @@
 
 namespace Drupal\custom_admin\Controller;
 
-use Drupal\Core\Controller\ControllerBase;
 
 /**
  * Simple page controller for drupal.
  */
-class Page extends ControllerBase{
+class Page{
 
     public function description() {
         $output = array();
